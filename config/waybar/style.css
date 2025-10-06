@@ -1,0 +1,33 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: JetBrainsMono Nerd Font, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    min-height: 28px;
+}
+
+window#waybar {
+    background: rgba(43, 48, 59, 0.5);
+    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+    color: white;
+}
+
+#custom-logo {
+    font-size: 28px;
+	color: #8afff5;
+    margin-left: 10px;
+}
+
+#clock {
+    background-color: #64727D;
+}
+
+#cpu, #memory, #temperature {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: rgba(30, 30, 42, 0.5);
+    border: 1px solid #222;
+    border-radius: 15%;
+    padding: 0 5px;
+    margin: 50px 50px;
+}
