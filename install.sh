@@ -20,7 +20,7 @@ sudo pacman -S --needed --noconfirm \
 # Pacotes posteriores
 echo "📥 INSTALANDO PACOTES ADICIONAIS..."
 sudo pacman -S --needed --noconfirm \
-    fastfetch breeze breeze-gtk papirus-icon-theme \
+    fastfetch breeze breeze5 breeze-gtk papirus-icon-theme \
     nwg-look kde-cli-tools archlinux-xdg-menu
 
 # Instalar pacotes AUR
@@ -28,10 +28,6 @@ echo "📥 INSTALANDO PACOTES AUR..."
 yay -S --noconfirm \
     hyprshot wlogout qview visual-studio-code-bin \
     qt5ct-kde qt6ct-kde
-
-# Copiar dotfiles
-echo "📁 CONFIGURANDO DOTFILES..."
-cp -r ~/dotfiles/config/* ~/.config/
 
 # Configurar serviços
 echo "⚙️ CONFIGURANDO SERVIÇOS..."
