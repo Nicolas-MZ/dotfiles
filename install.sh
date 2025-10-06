@@ -161,90 +161,49 @@ else
 fi
 
 # Instalar fastfetch
-echo "Instalando fastfetch..."
-if sudo pacman -S --noconfirm fastfetch 2>/dev/null; then
-    if check_package_installed "fastfetch"; then
-        echo "✓ Fastfetch instalado com sucesso"
-    else
-        echo "✗ Fastfetch não pôde ser instalado"
-        FAILED_PACMAN_PACKAGES+=("fastfetch")
-    fi
-else
-    echo "✗ Falha ao instalar fastfetch"
-    FAILED_PACMAN_PACKAGES+=("fastfetch")
-fi
+#!/bin/bash
 
-# Temas e aparência
-echo "=== Instalando Temas e Personalização ==="
-THEME_PACKAGES=(breeze breeze5 breeze-gtk papirus-icon-theme nwg-look kde-cli-tools archlinux-xdg-menu)
-install_pacman_packages "${THEME_PACKAGES[@]}"
+set -e
 
-# Configuração QT
-echo "Instalando configurações QT..."
-QT_PACKAGES=(qt5ct-kde qt6ct-kde)
-install_aur_packages "${QT_PACKAGES[@]}"
+echo "🚀 INSTALAÇÃO AUTOMÁTICA ARCH LINUX"
 
-# Relatório final
-echo ""
-echo "=== RELATÓRIO DA INSTALAÇÃO ==="
-echo ""
+# Instalar pacotes base
+echo "📥 INSTALANDO PACOTES BASE..."
+sudo pacman -Syu --noconfirm
+sudo pacman -S --needed --noconfirm \
+    nano pipewire pipewire-alsa pipewire-jack wireplumber \
+    gst-libav gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly ffmpeg \
+    git hyprland hyprlock hypridle hyprcursor hyprpaper hyprpicker \
+    waybar kitty rofi-wayland dolphin dolphin-plugins ark kio-admin \
+    polkit-kde-agent qt5-wayland qt6-wayland xdg-desktop-portal-hyprland \
+    xdg-desktop-portal-gtk dunst cliphist vlc pavucontrol \
+    xdg-user-dirs-gtk ttf-font-awesome ttf-jetbrains-mono-nerd \
+    ttf-opensans noto-fonts firefox fastfetch breeze breeze-gtk \
+    papirus-icon-theme nwg-look kde-cli-tools archlinux-xdg-menu
 
-if [ ${#FAILED_PACMAN_PACKAGES[@]} -eq 0 ] && [ ${#FAILED_AUR_PACKAGES[@]} -eq 0 ] && [ ${#FAILED_SERVICES[@]} -eq 0 ]; then
-    echo "🎉 TODAS AS INSTALAÇÕES FORAM BEM-SUCEDIDAS!"
-else
-    echo "⚠️  ALGUMAS INSTALAÇÕES FALHARAM:"
-    
-    if [ ${#FAILED_PACMAN_PACKAGES[@]} -gt 0 ]; then
-        echo ""
-        echo "📦 Pacotes Pacman com problemas:"
-        for package in "${FAILED_PACMAN_PACKAGES[@]}"; do
-            echo "   ✗ $package"
-            echo "     Possíveis causas:"
-            echo "     - Pacote não encontrado nos repositórios"
-            echo "     - Conflito de dependências"
-            echo "     - Problema de conexão com a internet"
-            echo "     - Repositórios desatualizados (execute: sudo pacman -Syu)"
-        done
-    fi
-    
-    if [ ${#FAILED_AUR_PACKAGES[@]} -gt 0 ]; then
-        echo ""
-        echo "📦 Pacotes AUR com problemas:"
-        for package in "${FAILED_AUR_PACKAGES[@]}"; do
-            echo "   ✗ $package"
-            echo "     Possíveis causas:"
-            echo "     - Pacote não encontrado no AUR"
-            echo "     - Dependências faltando"
-            echo "     - Problemas de compilação"
-            echo "     - Chave GPG não confiável"
-        done
-    fi
-    
-    if [ ${#FAILED_SERVICES[@]} -gt 0 ]; then
-        echo ""
-        echo "🔧 Serviços com problemas:"
-        for service in "${FAILED_SERVICES[@]}"; do
-            echo "   ✗ $service"
-            echo "     Possíveis causas:"
-            echo "     - Serviço não instalado corretamente"
-            echo "     - Arquivo de serviço não encontrado"
-            echo "     - Problema de permissões"
-        done
-    fi
-    
-    echo ""
-    echo "💡 Soluções sugeridas:"
-    echo "   1. Execute: sudo pacman -Syu"
-    echo "   2. Verifique sua conexão com a internet"
-    echo "   3. Tente instalar os pacotes falhos manualmente"
-    echo "   4. Para pacotes AUR, verifique no site: https://aur.archlinux.org"
-    echo "   5. Execute o script novamente após resolver os problemas"
-fi
+# Instalar pacotes AUR (AGORA COM YAY JÁ INSTALADO)
+echo "📥 INSTALANDO PACOTES AUR..."
+yay -S --noconfirm hyprshot wlogout qview visual-studio-code-bin
 
-# Verificação adicional de pacotes críticos
-echo ""
-echo "=== VERIFICAÇÃO DE PACOTES CRÍTICOS ==="
-CRITICAL_PACKAGES=("hyprland" "pipewire" "kitty" "firefox")
+# Copiar dotfiles
+echo "📁 CONFIGURANDO DOTFILES..."
+cp -r ~/dotfiles/config/* ~/.config/
+
+# Configurar serviços
+echo "⚙️ CONFIGURANDO SERVIÇOS..."
+systemctl --user enable pipewire pipewire-alsa wireplumber
+systemctl --user start pipewire pipewire-alsa wireplumber
+
+# Configurações finais
+echo "🎯 CONFIGURAÇÕES FINAIS..."
+xdg-user-dirs-update
+echo "export QT_QPA_PLATFORM=wayland" >> ~/.bashrc
+echo "export MOZ_ENABLE_WAYLAND=1" >> ~/.bashrc
+echo "if [ -z \"\$DISPLAY\" ] && [ \"\$(tty)\" = \"/dev/tty1\" ]; then" >> ~/.bashrc
+echo "  exec Hyprland" >> ~/.bashrc
+echo "fi" >> ~/.bashrc
+
+echo "✅ INSTALAÇÃO COMPLETA! Reinicie o sistema."e" "kitty" "firefox")
 for package in "${CRITICAL_PACKAGES[@]}"; do
     if check_package_installed "$package"; then
         echo "✓ $package está instalado e funcionando"
