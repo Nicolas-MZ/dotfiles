@@ -15,12 +15,19 @@ sudo pacman -S --needed --noconfirm \
     polkit-kde-agent qt5-wayland qt6-wayland xdg-desktop-portal-hyprland \
     xdg-desktop-portal-gtk dunst cliphist vlc pavucontrol \
     xdg-user-dirs-gtk ttf-font-awesome ttf-jetbrains-mono-nerd \
-    ttf-opensans noto-fonts firefox fastfetch breeze breeze-gtk \
-    papirus-icon-theme nwg-look kde-cli-tools archlinux-xdg-menu
+    ttf-opensans noto-fonts firefox
 
-# Instalar pacotes AUR (AGORA COM YAY JÁ INSTALADO)
+# Pacotes posteriores
+echo "📥 INSTALANDO PACOTES ADICIONAIS..."
+sudo pacman -S --needed --noconfirm \
+    fastfetch breeze breeze5 breeze-gtk papirus-icon-theme \
+    nwg-look kde-cli-tools archlinux-xdg-menu
+
+# Instalar pacotes AUR
 echo "📥 INSTALANDO PACOTES AUR..."
-yay -S --noconfirm hyprshot wlogout qview visual-studio-code-bin
+yay -S --noconfirm \
+    hyprshot wlogout qview visual-studio-code-bin \
+    qt5ct-kde qt6ct-kde
 
 # Copiar dotfiles
 echo "📁 CONFIGURANDO DOTFILES..."
@@ -33,11 +40,7 @@ systemctl --user start pipewire pipewire-pulse wireplumber
 
 # Configurações finais
 echo "🎯 CONFIGURAÇÕES FINAIS..."
-xdg-user-dirs-update
-echo "export QT_QPA_PLATFORM=wayland" >> ~/.bashrc
-echo "export MOZ_ENABLE_WAYLAND=1" >> ~/.bashrc
-echo "if [ -z \"\$DISPLAY\" ] && [ \"\$(tty)\" = \"/dev/tty1\" ]; then" >> ~/.bashrc
-echo "  exec Hyprland" >> ~/.bashrc
-echo "fi" >> ~/.bashrc
+xdg-user-dirs-update --force
 
-echo "✅ INSTALAÇÃO COMPLETA! Reinicie o sistema."
+echo "✅ INSTALAÇÃO COMPLETA!"
+echo "💡 Para iniciar o Hyprland manualmente, digite: Hyprland"
