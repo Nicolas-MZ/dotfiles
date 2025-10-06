@@ -20,7 +20,7 @@ sudo pacman -S --needed --noconfirm \
 # Pacotes posteriores
 echo "📥 INSTALANDO PACOTES ADICIONAIS..."
 sudo pacman -S --needed --noconfirm \
-    fastfetch breeze breeze5 breeze-gtk papirus-icon-theme \
+    fastfetch breeze breeze-gtk papirus-icon-theme \
     nwg-look kde-cli-tools archlinux-xdg-menu
 
 # Instalar pacotes AUR
